@@ -8,6 +8,6 @@
       app: keycloak-proxy
     ports:
       - protocol: TCP
-        port: 3000
-        targetPort: 3000
-        name: ui
+        port: 80
+        targetPort: 80
+        name: http

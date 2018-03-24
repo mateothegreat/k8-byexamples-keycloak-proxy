@@ -4,11 +4,6 @@ metadata:
   name: keycloak-proxy-config
 data:
   httpd.conf: |
-    LoadModule ssl_module modules/mod_ssl.so
-    LoadModule auth_openidc_module modules/mod_auth_openidc.so
-
-    ServerName sandbox.streaming-platform.com
-
     <VirtualHost *:80>
 
         DocumentRoot /var/www/html
@@ -18,7 +13,7 @@ data:
 
         OIDCProviderMetadataURL https://keycloak.streaming-platform.com/auth/realms/master/.well-known/openid-configuration
         
-        OIDCRedirectURI https://sandbox.streaming-platform.com/redirect_uri
+        OIDCRedirectURI https://ingress.streaming-platform.com/redirect_uri
         OIDCClientID openid-connect
         OIDCClientSecret b7271660-5b45-4a42-a30c-6c5243c610b1
         OIDCRemoteUserClaim preferred_username

@@ -10,3 +10,9 @@ include .make/Makefile.inc
 NS              ?= default
 APP             ?= keycloak-proxy
 export
+
+
+
+# configmap/create:
+
+    # kubectl create --namespace $(NS) configmap keycloak-proxy-configmap --from-file=

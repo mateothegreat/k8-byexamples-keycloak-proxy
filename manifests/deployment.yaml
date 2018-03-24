@@ -15,8 +15,8 @@ spec:
         imagePullPolicy: Always
         volumeMounts:
         - name: keycloak-proxy-config
-          mountPath: /config
+          mountPath: /etc/httpd/conf.d
       volumes:
       - name: keycloak-proxy-config
-        secret:
-          secretName: keycloak-proxy-config
+        configMap:
+          name: keycloak-proxy-config
