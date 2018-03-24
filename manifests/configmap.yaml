@@ -23,7 +23,10 @@ data:
             Require valid-user
         </Location>
 
-        ProxyPass "/"  "http://grafana/"
-        ProxyPassReverse "/"  "http://grafana/"
+        ProxyPass "/"  "http://kibana/"
+        ProxyPassReverse "/"  "http://kibana/"
+
+        ProxyPass "/elasticsearch"  "http://elasticsearch:9200/"
+        ProxyPassReverse "/elasticsearch"  "http://elasticsearch:9200/"
 
     </VirtualHost>
