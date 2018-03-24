@@ -7,32 +7,16 @@ spec:
   template:
     metadata:
       labels:
-        name: keycloak-proxy
         app: keycloak-proxy
-      annotations:
-        repository: https://github.com/gambol99/keycloak-proxy
     spec:
       containers:
       - name: keycloak-proxy
-        image: quay.io/gambol99/keycloak-proxy:latest
+        image: appsoa/docker-centos-openidc
         imagePullPolicy: Always
-        args:
-        #   - --config=/etc/secrets/config.yml
-          - --discovery-url=https://k8.yomateo.io/auth
-          - --client-id=proxy
-          - --client-secret=57103f49-28a5-45ac-81b3-14da3b31e3a6
-          - --listen=127.0.0.1:3000
-          - --enable-logging=true
-          - --enable-json-logging=true
-          - --redirection-url=https://keycloak-proxy:3000
-        #   - --resource=uri=/*
-          - --enable-refresh-tokens=true
-          - --encryption-key=AgXa7xRcoClDEU0ZDSH4X0XhL5Qy2Z2j
-          - --upstream-url=http://kibana
-    #     volumeMounts:
-    #     - name: secrets
-    #       mountPath: /etc/secrets
-    #   volumes:
-    #   - name: secrets
-    #     secret:
-    #       secretName: config
+        volumeMounts:
+        - name: keycloak-proxy-config
+          mountPath: /config
+      volumes:
+      - name: keycloak-proxy-config
+        secret:
+          secretName: keycloak-proxy-config
