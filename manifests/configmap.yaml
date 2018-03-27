@@ -6,11 +6,9 @@ data:
   httpd.conf: |
     <VirtualHost *:80>
 
-        DocumentRoot /var/www/html
+        ServerName ingress.streaming-platform.com
 
-        #this is required by mod_auth_openidc
         OIDCCryptoPassphrase a-random-secret-used-by-apache-oidc-and-balancer
-
         OIDCProviderMetadataURL https://keycloak.streaming-platform.com/auth/realms/master/.well-known/openid-configuration
         
         OIDCRedirectURI https://ingress.streaming-platform.com/redirect_uri
@@ -23,16 +21,32 @@ data:
             Require valid-user
         </Location>
 
-        ProxyPass "/kibana"  "http://kibana"
-        ProxyPassReverse "/kibana"  "http://kibana"
+        ProxyPassMatch  ^/camera/stream/(.*)$ http://motion-$1:8081
 
-        ProxyPass "/grafana"  "http://grafana"
-        ProxyPassReverse "/grafana"  "http://grafana"
+      
+        ProxyPass "/"  "http://jenkins-ui:8080/" nocanon
+        ProxyPassReverse "/"  "http://jenkins-ui:8080/" nocanon
 
-        ProxyPass "/rabbitmq"  "http://rabbitmq:15672"
-        ProxyPassReverse "/rabbitmq"  "http://rabbitmq:15672"
 
-        ProxyPass "/elasticsearch"  "http://elasticsearch:9200"
-        ProxyPassReverse "/elasticsearch"  "http://elasticsearch:9200"
+    </VirtualHost>
+    <VirtualHost *:80>
+
+        ServerName kibana.streaming-platform.com
+
+        OIDCCryptoPassphrase a-random-secret-used-by-apache-oidc-and-balancer
+        OIDCProviderMetadataURL https://keycloak.streaming-platform.com/auth/realms/master/.well-known/openid-configuration
+        
+        OIDCRedirectURI https://ingress.streaming-platform.com/redirect_uri
+        OIDCClientID openid-connect
+        OIDCClientSecret b7271660-5b45-4a42-a30c-6c5243c610b1
+        OIDCRemoteUserClaim preferred_username
+
+        <Location />
+            AuthType openid-connect
+            Require valid-user
+        </Location>
+
+        ProxyPass "/"  "http://kibana/" nocanon
+        ProxyPassReverse "/"  "http://kibana/" nocanon
 
     </VirtualHost>
