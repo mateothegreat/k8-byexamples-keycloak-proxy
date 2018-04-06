@@ -14,6 +14,7 @@
 #
 
 > k8 by example -- straight to the point, simple execution.
+Deploy Keycloak using https://github.com/mateothegreat/k8-byexamples-keycloak.
 
 ## Usage
 
